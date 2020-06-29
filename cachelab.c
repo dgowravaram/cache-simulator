@@ -10,34 +10,69 @@ There was 1 failed login attempt since the last successful login.
        For all support issues related to this machine,
         please send e-mail to support@cs.bu.edu.
 ---------------------------------------------------------
-    Temporary local storage is available in /scratch.
-  Note: Data stored locally will NOT be backed up.
----------------------------------------------------------
-
-[divyag@csa2 ~]$ ls
-210  210_midterm_practice  A1  bomb136  bomb136.tar  cachelab  cs210  mail  Mail  myfile.c  scratch  target14  target14.tar
-[divyag@csa2 ~]$ cd cachelab
-[divyag@csa2 cachelab]$ ls
-cachelab.c  cachelab.pdf  csim.c    driver.py  Makefile  test-csim   test-trans.c  tracegen.c  trans.c  valgrind
-cachelab.h  csim          csim-ref  make       README    test-trans  tracegen      traces      trans.o
-[divyag@csa2 cachelab]$ emacs cachelab.c
+    Temporary local storage is a
 
 
 
 
 
+  // cachelab.c - Cache Lab helper functions
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include "cachelab.h"
+#include <time.h>
 
 
+trans_func_t func_list[MAX_TRANS_FUNCS];
+int func_counter = 0;
+
+/*                                                                                                                                
+ * printSummary - Summarize the cache simulation statistics.
+ */
+
+void printSummary(int hits, int misses, int evictions)
+{
+  printf("hits:%d misses:%d evictions:%d\n", hits, misses, evictions);
+  FILE* output_fp = fopen(".csim_results", "w");
+  assert(output_fp);
+  fprintf(output_fp, "%d %d %d\n", hits, misses, evictions);
+  fclose(output_fp);
+}
 
 
+/*                                                                                                                                
+ * initMatrix - Initialize the given matrix                                                                                       
+ */
+void initMatrix(int M, int N, int A[N][M], int B[M][N])
+{
+  int i, j;
+  srand(time(NULL));
+  for (i = 0; i < N; i++){
+    for (j = 0; j < M; j++){
+      // A[i][j] = i+j;  /* The matrix created this way is symmetric */                                                     
+      A[i][j]=rand();
+      B[j][i]=rand();
+    }
+  }
+}
+
+void randMatrix(int M, int N, int A[N][M]) {
+  int i, j;
+  srand(time(NULL));
+  for (i = 0; i < N; i++){
+    for (j = 0; j < M; j++){
+      // A[i][j] = i+j;  /* The matrix created this way is symmetric */                                                     
+      A[i][j]=rand();
+    }
+  }
+}
 
 
-
-
-
-
-File Edit Options Buffers Tools C Help                                                                                            
-  void correctTrans(int M, int N, int A[N][M], int B[M][N])
+/*                                                                                                                                * correctTrans - baseline transpose function used to evaluate correctness                                                      
+ */ 
+void correctTrans(int M, int N, int A[N][M], int B[M][N])
 {
   int i, j, tmp;
   for (i = 0; i < N; i++){
@@ -50,9 +85,9 @@ File Edit Options Buffers Tools C Help
 
 
 
-/*                                                                                                                                
- * registerTransFunction - Add the given trans function into your list                                                            
- *     of functions to be tested                                                                                                  
+/*                                                                                                                               
+ * registerTransFunction - Add the given trans function into your list                                                           
+ *     of functions to be tested                                                                                               
  */
 void registerTransFunction(void (*trans)(int M, int N, int[N][M], int[M][N]),
                            char* desc)
