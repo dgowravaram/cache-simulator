@@ -1,22 +1,5 @@
-Last login: Mon Jun 29 05:32:33 on ttys000
-(base) Divyas-MacBook-Pro:~ divyagowravaram$ ssh divyag@csa2.bu.edu
-divyag@csa2.bu.edu's password: 
-Permission denied, please try again.
-divyag@csa2.bu.edu's password: 
-       Last failed login: Mon Jun 29 12:46:38 EDT 2020 from c-73-194-112-252.hsd1.nj.comcast.net on ssh:notty
-There was 1 failed login attempt since the last successful login.
-       Last login: Mon Jun 29 05:32:55 2020 from c-73-194-112-252.hsd1.nj.comcast.net
----------------------------------------------------------
-       For all support issues related to this machine,
-        please send e-mail to support@cs.bu.edu.
----------------------------------------------------------
-    Temporary local storage is a
 
-
-
-
-
-  // cachelab.c - Cache Lab helper functions
+// cachelab.c - Cache Lab helper functions
 
 #include <stdio.h>
 #include <stdlib.h>
